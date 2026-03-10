@@ -1,0 +1,127 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyMsB3is8Kaqhu3rG8wotgmm",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/vikasreddy666/IIY-IVS-IRS/blob/main/Run-length%20encoding\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 7,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "PD5e_kA2CgBu",
+        "outputId": "aee4b0be-b849-4a71-eb02-99ec7c28716c"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Original: aaabbbbcc\n",
+            "Compressed: a3b4c2\n"
+          ]
+        }
+      ],
+      "source": [
+        "def compress(text):\n",
+        "    if not text:\n",
+        "        return \"\"\n",
+        "    compressed = \"\"\n",
+        "    count = 1\n",
+        "    for i in range(1, len(text)):\n",
+        "        if text[i] == text[i - 1]:\n",
+        "            count += 1\n",
+        "        else:\n",
+        "            compressed += text[i - 1] + str(count)\n",
+        "            count = 1\n",
+        "    compressed += text[-1] + str(count)\n",
+        "    return compressed\n",
+        "import os\n",
+        "if not os.path.exists(\"input.txt\"):\n",
+        "    with open(\"input.txt\", \"w\") as f:\n",
+        "        f.write(\"aaabbbbcc\")\n",
+        "with open(\"input.txt\", \"r\") as f:\n",
+        "    data = f.read().strip()\n",
+        "compressed_data = compress(data)\n",
+        "with open(\"compressed.txt\", \"w\") as f:\n",
+        "    f.write(compressed_data)\n",
+        "print(\"Original:\", data)\n",
+        "print(\"Compressed:\", compressed_data)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def locate(sub, main):\n",
+        "    size_main = len(main)\n",
+        "    size_sub = len(sub)\n",
+        "    print(\"Given String :\", main)\n",
+        "    print(\"Search String:\", sub)\n",
+        "    print(\"-------------\")\n",
+        "    found_any = 0\n",
+        "    index = 0\n",
+        "    while index <= size_main - size_sub:\n",
+        "        k = 0\n",
+        "        while k < size_sub:\n",
+        "            if main[index + k] != sub[k]:\n",
+        "                break\n",
+        "            k = k + 1\n",
+        "        if k == size_sub:\n",
+        "            print(\"Substring exists at position\", index)\n",
+        "            found_any = 1\n",
+        "        index = index + 1\n",
+        "    if found_any == 0:\n",
+        "        print(\"Substring not found in given string\")\n",
+        "full_text = \"AABAACAADAABAABA\"\n",
+        "search_text = \"AABA\"\n",
+        "locate(search_text, full_text)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "8i3UDOQ3Ffqd",
+        "outputId": "916112ba-fc93-4a2f-9bc2-06f0b2c248c6"
+      },
+      "execution_count": 8,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Given String : AABAACAADAABAABA\n",
+            "Search String: AABA\n",
+            "-------------\n",
+            "Substring exists at position 0\n",
+            "Substring exists at position 9\n",
+            "Substring exists at position 12\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
